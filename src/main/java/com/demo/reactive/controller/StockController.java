@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/api/v1/stocks")
 @AllArgsConstructor
@@ -23,8 +25,11 @@ public class StockController {
     }
 
     @GetMapping
-    public Flux<StockResponse> getAllStocks() {
-        return this.stockService.getAllStocks();
+    public Flux<StockResponse> getAllStocks(
+            @RequestParam (required = false, defaultValue = "0")
+            BigDecimal priceGreaterThan
+    ) {
+        return this.stockService.getAllStocks(priceGreaterThan);
     }
 
     @PostMapping
