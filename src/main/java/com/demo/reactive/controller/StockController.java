@@ -1,6 +1,8 @@
 package com.demo.reactive.controller;
 
 
+import com.demo.reactive.dto.StockRequest;
+import com.demo.reactive.dto.StockResponse;
 import com.demo.reactive.model.Stock;
 import com.demo.reactive.service.StockService;
 import lombok.AllArgsConstructor;
@@ -16,17 +18,17 @@ public class StockController {
     private final StockService stockService;
 
     @GetMapping("/{idStock}")
-    public Mono<Stock> getOneStock(@PathVariable String idStock) {
+    public Mono<StockResponse> getOneStock(@PathVariable String idStock) {
         return this.stockService.getOneStock(idStock);
     }
 
     @GetMapping
-    public Flux<Stock> getAllStocks() {
+    public Flux<StockResponse> getAllStocks() {
         return this.stockService.getAllStocks();
     }
 
     @PostMapping
-    public Mono<Stock> ajouterStock(@RequestBody Stock stock) {
+    public Mono<StockResponse> ajouterStock(@RequestBody StockRequest stock) {
         return this.stockService.addStock(stock);
     }
 }

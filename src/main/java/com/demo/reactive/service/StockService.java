@@ -1,5 +1,7 @@
 package com.demo.reactive.service;
 
+import com.demo.reactive.dto.StockRequest;
+import com.demo.reactive.dto.StockResponse;
 import com.demo.reactive.model.Stock;
 import com.demo.reactive.repository.StockRepository;
 import lombok.AllArgsConstructor;
@@ -13,15 +15,18 @@ public class StockService {
 
     private final StockRepository repository;
 
-    public Mono<Stock> getOneStock(String id) {
-        return this.repository.findById(id);
+    public Mono<StockResponse> getOneStock(String id) {
+        return this.repository.findById(id)
+                .map(StockResponse::fromModel);
     }
 
-    public Flux<Stock> getAllStocks() {
-        return this.repository.findAll();
+    public Flux<StockResponse> getAllStocks() {
+        return this.repository.findAll()
+                .map(StockResponse::fromModel);
     }
 
-    public Mono<Stock> addStock(Stock stock) {
-        return this.repository.save(stock);
+    public Mono<StockResponse> addStock(StockRequest request) {
+        return this.repository.save(request.toStock())
+                .map(StockResponse::fromModel);
     }
 }
